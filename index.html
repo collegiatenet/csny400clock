@@ -4,38 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Collegiate at 400 — Countdown</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <style>
   /* ============================================================
-     SCALA — self-hosted licensed webfont files.
-     Put the .woff2 files in a /fonts folder next to index.html and
-     match these file names to yours. If you load Scala from an
-     Adobe Fonts or Monotype kit instead, delete these @font-face
-     blocks, add the kit's <link> above, and change the family names
-     in --serif / --sans to the names the kit gives you.
+     SCALA PRO — self-hosted webfont files in /fonts next to index.html.
+     Each file is declared with its true weight and style so the
+     browser never picks the italic for upright text.
      ============================================================ */
   @font-face {
-    font-family: "Scala"; font-weight: 400; font-style: normal; font-display: swap;
+    font-family: "Scala Pro"; font-weight: 400; font-style: normal; font-display: swap;
     src: url("fonts/ScalaPro.woff2") format("woff2");
   }
   @font-face {
-    font-family: "Scala"; font-weight: 700; font-style: normal; font-display: swap;
+    font-family: "Scala Pro"; font-weight: 700; font-style: normal; font-display: swap;
     src: url("fonts/ScalaPro_Bold.woff2") format("woff2");
   }
   @font-face {
-    font-family: "Scala"; font-weight: 400; font-style: normal; font-display: swap;
+    font-family: "Scala Pro"; font-weight: 400; font-style: italic; font-display: swap;
     src: url("fonts/ScalaPro_Italic.woff2") format("woff2");
   }
   @font-face {
-    font-family: "Scala"; font-weight: 700; font-style: normal; font-display: swap;
-    src: url("fonts/ScalaPro-Bold_Italic.woff2") format("woff2");
+    font-family: "Scala Pro"; font-weight: 700; font-style: italic; font-display: swap;
+    src: url("fonts/ScalaPro_Bold_Italic.woff2") format("woff2");
   }
 
-  /* ============================================================
-     SCHOOL COLORS — replace these hex values with your brand palette
-     ============================================================ */
   :root {
     --brand:        #00306B;  /* Collegiate navy (background in kiosk mode) */
     --brand-deep:   #001A3D;  /* deeper navy for the background falloff */
@@ -46,15 +37,16 @@
     --paper:        #F7F8FA;  /* background for light theme */
     --muted:        #5E5B5A;  /* secondary text on light backgrounds */
 
-    --serif: "Scala", "Scala Pro", "FF Scala", Georgia, "Times New Roman", serif;
-    --sans:  "Scala Sans", "Scala Sans Pro", "FF Scala Sans", "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+    --serif: "Scala Pro", Georgia, "Times New Roman", serif;
   }
 
   * { box-sizing: border-box; margin: 0; }
   html, body { height: 100%; }
 
   body {
-    font-family: var(--sans);
+    font-family: var(--serif);
+    font-style: normal;
+    font-synthesis: none;   /* never fake bold or italic if a file fails to load */
     color: var(--ink-on-brand);
     background: radial-gradient(120% 90% at 50% 0%, var(--brand) 0%, var(--brand-deep) 100%);
     display: grid;
@@ -111,6 +103,7 @@
     display: block;
     font-family: var(--serif);
     font-weight: 400;
+    font-style: normal;
     font-variant-numeric: lining-nums tabular-nums;
     font-size: clamp(2.6rem, 11vw, 13rem);
     line-height: 1;
