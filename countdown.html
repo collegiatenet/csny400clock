@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Collegiate at 400 — Countdown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     SCALA — self-hosted licensed webfont files.
+     Put the .woff2 files in a /fonts folder next to index.html and
+     match these file names to yours. If you load Scala from an
+     Adobe Fonts or Monotype kit instead, delete these @font-face
+     blocks, add the kit's <link> above, and change the family names
+     in --serif / --sans to the names the kit gives you.
+     ============================================================ */
+  @font-face {
+    font-family: "Scala"; font-weight: 400; font-style: normal; font-display: swap;
+    src: url("fonts/Scala-Regular.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Scala"; font-weight: 700; font-style: normal; font-display: swap;
+    src: url("fonts/Scala-Bold.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Scala Sans"; font-weight: 400; font-style: normal; font-display: swap;
+    src: url("fonts/ScalaSans-Regular.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Scala Sans"; font-weight: 700; font-style: normal; font-display: swap;
+    src: url("fonts/ScalaSans-Bold.woff2") format("woff2");
+  }
+
+  /* ============================================================
+     SCHOOL COLORS — replace these hex values with your brand palette
+     ============================================================ */
+  :root {
+    --brand:        #00306B;  /* Collegiate navy (background in kiosk mode) */
+    --brand-deep:   #001A3D;  /* deeper navy for the background falloff */
+    --accent:       #FF7815;  /* Collegiate orange (rules, unit labels) */
+    --accent-2:     #DB2927;  /* Collegiate red (reserved) */
+    --ink-on-brand: #F7F8FA;  /* off-white text on navy */
+    --ink:          #333333;  /* text on light backgrounds (embed/light theme) */
+    --paper:        #F7F8FA;  /* background for light theme */
+    --muted:        #5E5B5A;  /* secondary text on light backgrounds */
+
+    --serif: "Scala", "Scala Pro", "FF Scala", Georgia, "Times New Roman", serif;
+    --sans:  "Scala Sans", "Scala Sans Pro", "FF Scala Sans", "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; }
+
+  body {
+    font-family: var(--sans);
+    color: var(--ink-on-brand);
+    background: radial-gradient(120% 90% at 50% 0%, var(--brand) 0%, var(--brand-deep) 100%);
+    display: grid;
+    place-items: center;
+    padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0)
+             env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Light theme (?theme=light) — good for a white Finalsite page */
+  body.theme-light { background: var(--paper); color: var(--ink); }
+  body.theme-light .clock { --rule: var(--accent); --label: var(--brand); }
+  body.theme-light .subtitle, body.theme-light .when { color: var(--muted); opacity: 1; }
+  body.theme-light .title, body.theme-light .num { color: var(--brand); }
+
+  /* Transparent background (?bg=transparent) — inherits the host page */
+  body.bg-transparent { background: transparent; }
+
+  .clock {
+    --rule: var(--accent);
+    --label: var(--accent);
+    width: min(92vw, 1600px);
+    text-align: center;
+  }
+
+  .title {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: clamp(1.4rem, 4.2vw, 5rem);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .subtitle {
+    margin-top: 0.4em;
+    font-size: clamp(1rem, 1.8vw, 2.1rem);
+    opacity: 0.85;
+    text-wrap: balance;
+  }
+
+  .units {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 4), 1fr);
+    margin-block: clamp(1rem, 4vw, 4.5rem);
+    border-top: 2px solid var(--rule);
+    border-bottom: 2px solid var(--rule);
+  }
+  .unit {
+    padding: clamp(0.6rem, 2vw, 2.4rem) 0.25rem;
+  }
+  .unit + .unit { border-left: 1px solid color-mix(in srgb, var(--rule) 45%, transparent); }
+
+  .num {
+    display: block;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-variant-numeric: lining-nums tabular-nums;
+    font-size: clamp(2.6rem, 11vw, 13rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .lbl {
+    display: block;
+    margin-top: 0.5em;
+    font-size: clamp(0.8rem, 1.5vw, 1.8rem);
+    font-weight: 700;
+    color: var(--label);
+  }
+
+  .done {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 7vw, 9rem);
+    line-height: 1.05;
+    margin-block: clamp(1rem, 4vw, 4.5rem);
+    text-wrap: balance;
+  }
+
+  .when {
+    font-size: clamp(0.9rem, 1.5vw, 1.8rem);
+    opacity: 0.8;
+  }
+
+  [hidden] { display: none !important; }
+
+  /* Kiosk mode (?mode=kiosk): hide the cursor on the lobby display */
+  body.kiosk { cursor: none; overflow: hidden; }
+
+  /* Compact embed (?mode=embed): tighter spacing for a CMS content block */
+  body.embed { min-height: 0; padding: 1.5rem 0; }
+  body.embed .clock { width: 100%; }
+  body.embed .num { font-size: clamp(2.2rem, 9vw, 6rem); }
+  body.embed .title { font-size: clamp(1.3rem, 3.4vw, 2.6rem); }
+
+  @media (max-width: 520px) {
+    .units { grid-template-columns: repeat(2, 1fr); }
+    .unit:nth-child(3) { border-left: 0; }
+    .unit:nth-child(n+3) { border-top: 1px solid color-mix(in srgb, var(--rule) 45%, transparent); }
+  }
+</style>
+</head>
+<body>
+  <main class="clock" role="timer" aria-live="off">
+    <h1 class="title" id="title"></h1>
+    <p class="subtitle" id="subtitle"></p>
+
+    <div class="units" id="units">
+      <div class="unit"><span class="num" id="d">–</span><span class="lbl" id="d-l">days</span></div>
+      <div class="unit"><span class="num" id="h">–</span><span class="lbl" id="h-l">hours</span></div>
+      <div class="unit"><span class="num" id="m">–</span><span class="lbl" id="m-l">minutes</span></div>
+      <div class="unit" id="s-wrap"><span class="num" id="s">–</span><span class="lbl" id="s-l">seconds</span></div>
+    </div>
+
+    <p class="done" id="done" hidden></p>
+    <p class="when" id="when"></p>
+    <!-- Screen-reader summary, updated once a minute instead of every second -->
+    <p class="sr" id="sr" aria-live="polite" style="position:absolute;left:-9999px"></p>
+  </main>
+
+<script>
+/* ============================================================
+   CONFIGURATION — edit these defaults, or override any of them
+   with URL parameters so one file serves every screen:
+
+   ?target=2027-09-25T18:00:00-04:00   (always include the UTC offset)
+   &title=Collegiate%20at%20400&subtitle=...
+   &mode=kiosk | embed                  (kiosk = lobby screen)
+   &theme=light                         (white background, brand text)
+   &bg=transparent                      (inherit host page background)
+   &seconds=0                           (hide the seconds column)
+   ============================================================ */
+const CONFIG = {
+  target:   "2027-09-25T00:00:00-04:00", // midnight EDT; set the party start time here if you want, e.g. T18:00:00-04:00
+  title:    "Collegiate at 400",
+  subtitle: "Join us for the 400th anniversary celebration",
+  doneText: "Happy 400th, Collegiate",
+  timeZone: "America/New_York",          // used only to display the target date
+  showTime: false,                       // true once you set a specific start time
+  showSeconds: true,
+  kioskReloadHour: 3                     // lobby screen reloads daily at 3am to pick up edits
+};
+
+(function () {
+  const p = new URLSearchParams(location.search);
+  const cfg = {
+    target:   p.get("target")   || CONFIG.target,
+    title:    p.get("title")    ?? CONFIG.title,
+    subtitle: p.get("subtitle") ?? CONFIG.subtitle,
+    doneText: p.get("done")     || CONFIG.doneText,
+    showSeconds: p.has("seconds") ? p.get("seconds") !== "0" : CONFIG.showSeconds,
+    mode:  p.get("mode")  || "",
+    theme: p.get("theme") || "",
+    bg:    p.get("bg")    || ""
+  };
+
+  const $ = id => document.getElementById(id);
+  const body = document.body;
+  if (cfg.mode === "kiosk") body.classList.add("kiosk");
+  if (cfg.mode === "embed") body.classList.add("embed");
+  if (cfg.theme === "light") body.classList.add("theme-light");
+  if (cfg.bg === "transparent") body.classList.add("bg-transparent");
+
+  $("title").textContent = cfg.title;
+  $("subtitle").textContent = cfg.subtitle;
+  $("subtitle").hidden = !cfg.subtitle;
+  if (!cfg.showSeconds) {
+    $("s-wrap").hidden = true;
+    $("units").style.setProperty("--cols", 3);
+  }
+
+  const targetMs = Date.parse(cfg.target);
+  if (Number.isNaN(targetMs)) {
+    $("units").hidden = true;
+    $("done").hidden = false;
+    $("done").textContent = "Set a valid target date";
+    $("when").textContent = 'Use a format like 2027-09-25T18:00:00-04:00';
+    return;
+  }
+
+  $("when").textContent = new Intl.DateTimeFormat("en-US", {
+    weekday: "long", month: "long", day: "numeric", year: "numeric", timeZone: CONFIG.timeZone,
+    ...(CONFIG.showTime ? { hour: "numeric", minute: "2-digit", timeZoneName: "short" } : {})
+  }).format(targetMs);
+
+  const pad = n => String(n).padStart(2, "0");
+  const plural = (n, word) => n === 1 ? word : word + "s";
+  let lastMinute = -1;
+
+  function render() {
+    // Always compute from the wall clock, so the display never drifts
+    // even if the tab is throttled, the screen sleeps, or the clock syncs.
+    const diff = targetMs - Date.now();
+
+    if (diff <= 0) {
+      $("units").hidden = true;
+      $("done").hidden = false;
+      $("done").textContent = cfg.doneText;
+      $("sr").textContent = cfg.doneText;
+      return false;
+    }
+
+    const total = Math.floor(diff / 1000);
+    const d = Math.floor(total / 86400);
+    const h = Math.floor(total % 86400 / 3600);
+    const m = Math.floor(total % 3600 / 60);
+    const s = total % 60;
+
+    $("d").textContent = d;          $("d-l").textContent = plural(d, "day");
+    $("h").textContent = pad(h);     $("h-l").textContent = plural(h, "hour");
+    $("m").textContent = pad(m);     $("m-l").textContent = plural(m, "minute");
+    $("s").textContent = pad(s);     $("s-l").textContent = plural(s, "second");
+
+    if (m !== lastMinute) {
+      lastMinute = m;
+      $("sr").textContent = `${d} ${plural(d,"day")}, ${h} ${plural(h,"hour")}, ${m} ${plural(m,"minute")} remaining`;
+    }
+    return true;
+  }
+
+  // Tick on the second boundary so every display flips at the same instant.
+  function tick() {
+    if (render()) setTimeout(tick, 1000 - (Date.now() % 1000) + 5);
+  }
+  tick();
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) render(); });
+
+  if (cfg.mode === "kiosk") {
+    // Ask the browser to keep the display awake (supported in Chrome/ChromeOS).
+    let lock = null;
+    const requestLock = async () => {
+      try { if ("wakeLock" in navigator) lock = await navigator.wakeLock.request("screen"); } catch (e) {}
+    };
+    requestLock();
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) requestLock(); });
+
+    // Reload once a day so edits to this file show up without touching the device.
+    const now = new Date();
+    const next = new Date(now);
+    next.setHours(CONFIG.kioskReloadHour, 0, 0, 0);
+    if (next <= now) next.setDate(next.getDate() + 1);
+    setTimeout(() => location.reload(), next - now);
+  }
+})();
+</script>
+</body>
+</html>
