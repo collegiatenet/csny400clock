@@ -87,6 +87,20 @@
     text-wrap: balance;
   }
 
+  .logo {
+    display: block;
+    width: clamp(7rem, 16vw, 18rem);
+    height: auto;
+    margin: 0 auto clamp(0.75rem, 2vw, 2rem);
+  }
+  .lead-in {
+    margin-top: clamp(1rem, 3vw, 3rem);
+    font-size: clamp(1rem, 1.8vw, 2.1rem);
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .lead-in + .units { margin-top: clamp(0.5rem, 1.5vw, 1.5rem); }
+
   .units {
     display: grid;
     grid-template-columns: repeat(var(--cols, 4), 1fr);
@@ -140,6 +154,7 @@
   body.embed .clock { width: 100%; }
   body.embed .num { font-size: clamp(2.2rem, 9vw, 6rem); }
   body.embed .title { font-size: clamp(1.3rem, 3.4vw, 2.6rem); }
+  body.embed .logo { width: clamp(5rem, 12vw, 9rem); }
 
   @media (max-width: 520px) {
     .units { grid-template-columns: repeat(2, 1fr); }
@@ -150,8 +165,10 @@
 </head>
 <body>
   <main class="clock" role="timer" aria-live="off">
+    <img class="logo" src="images/csny400-logo.webp" alt="Collegiate School — Celebrating 400 Years, 1628">
     <h1 class="title" id="title"></h1>
     <p class="subtitle" id="subtitle"></p>
+    <p class="lead-in">Festivities Begin In:</p>
 
     <div class="units" id="units">
       <div class="unit"><span class="num" id="d">–</span><span class="lbl" id="d-l">days</span></div>
@@ -242,6 +259,7 @@ const CONFIG = {
 
     if (diff <= 0) {
       $("units").hidden = true;
+      document.querySelector(".lead-in").hidden = true;
       $("done").hidden = false;
       $("done").textContent = cfg.doneText;
       $("sr").textContent = cfg.doneText;
