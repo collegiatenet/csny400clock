@@ -169,7 +169,7 @@
     <img class="logo" src="images/csny400-logo.webp" alt="Collegiate School — Celebrating 400 Years, 1628">
     <h1 class="title" id="title"></h1>
     <p class="subtitle" id="subtitle"></p>
-    <p class="lead-in">Festivities Begin In:</p>
+    <p class="lead-in" id="lead-in"></p>
 
     <div class="units" id="units">
       <div class="unit"><span class="num" id="d">–</span><span class="lbl" id="d-l">days</span></div>
@@ -190,7 +190,7 @@
    with URL parameters so one file serves every screen:
 
    ?target=2027-09-25T18:00:00-04:00   (always include the UTC offset)
-   &title=Collegiate%20at%20400&subtitle=...
+   &title=Collegiate%20at%20400&subtitle=...&leadin=...
    &mode=kiosk | embed                  (kiosk = lobby screen)
    &theme=light                         (white background, brand text)
    &bg=transparent                      (inherit host page background)
@@ -200,6 +200,7 @@ const CONFIG = {
   target:   "2027-09-25T00:00:00-04:00", // midnight EDT; set the party start time here if you want, e.g. T18:00:00-04:00
   title:    "Collegiate at 400",
   subtitle: "Join us for the 400th Anniversary Celebration",
+  leadIn:   "Festivities Begin In:",     // line just above the clock; set to "" to hide it
   doneText: "Happy 400th, Collegiate",
   timeZone: "America/New_York",          // used only to display the target date
   showTime: false,                       // true once you set a specific start time
@@ -213,6 +214,7 @@ const CONFIG = {
     target:   p.get("target")   || CONFIG.target,
     title:    p.get("title")    ?? CONFIG.title,
     subtitle: p.get("subtitle") ?? CONFIG.subtitle,
+    leadIn:   p.get("leadin")   ?? CONFIG.leadIn,
     doneText: p.get("done")     || CONFIG.doneText,
     showSeconds: p.has("seconds") ? p.get("seconds") !== "0" : CONFIG.showSeconds,
     mode:  p.get("mode")  || "",
@@ -230,6 +232,8 @@ const CONFIG = {
   $("title").textContent = cfg.title;
   $("subtitle").textContent = cfg.subtitle;
   $("subtitle").hidden = !cfg.subtitle;
+  $("lead-in").textContent = cfg.leadIn;
+  $("lead-in").hidden = !cfg.leadIn;
   if (!cfg.showSeconds) {
     $("s-wrap").hidden = true;
     $("units").style.setProperty("--cols", 3);
@@ -260,7 +264,7 @@ const CONFIG = {
 
     if (diff <= 0) {
       $("units").hidden = true;
-      document.querySelector(".lead-in").hidden = true;
+      $("lead-in").hidden = true;
       $("done").hidden = false;
       $("done").textContent = cfg.doneText;
       $("sr").textContent = cfg.doneText;
